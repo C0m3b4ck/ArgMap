@@ -50,6 +50,7 @@ private:
     void syncEditor();
     void status(const std::string& message);
     bool saveTo(const std::string& path);
+    bool saveCurrentMap();
     bool discardChangesIfNeeded();
 
     domain::MapService& service_;

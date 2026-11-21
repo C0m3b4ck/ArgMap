@@ -28,6 +28,7 @@ public:
     std::string askSavePath(const std::string& current) override;
     std::string askPngPath(const std::string& current) override;
     bool confirm(const std::string& message) override;
+    app::SavePrompt askSaveChanges() override;
     void alert(const std::string& message) override;
     void requestQuit() override;
 

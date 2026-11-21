@@ -57,10 +57,28 @@ void AppController::status(const std::string& message) {
     if (view_) view_->setStatus(message);
 }
 
+bool AppController::saveCurrentMap() {
+    if (!view_) return false;
+    if (state_.filePath.empty()) {
+        saveMapAs();
+    } else {
+        saveMap();
+    }
+    return !state_.dirty;
+}
+
 bool AppController::discardChangesIfNeeded() {
     if (!state_.dirty) return true;
     if (!view_) return true;
-    return view_->confirm("The current map has unsaved changes. Discard them?");
+    switch (view_->askSaveChanges()) {
+        case app::SavePrompt::Save:
+            return saveCurrentMap();
+        case app::SavePrompt::Discard:
+            return true;
+        case app::SavePrompt::Cancel:
+        default:
+            return false;
+    }
 }
 
 bool AppController::saveTo(const std::string& path) {

@@ -8,6 +8,9 @@
 namespace argmap {
 namespace app {
 
+// Answer to "save changes before ...?" used for quit/close/new/open.
+enum class SavePrompt { Save, Discard, Cancel };
+
 struct EditorFields {
     std::string text;
     domain::Side side = domain::Side::Proposition;
@@ -42,6 +45,7 @@ public:
     virtual std::string askSavePath(const std::string& current) = 0;
     virtual std::string askPngPath(const std::string& current) = 0;
     virtual bool confirm(const std::string& message) = 0;
+    virtual SavePrompt askSaveChanges() = 0;
     virtual void alert(const std::string& message) = 0;
     virtual void requestQuit() = 0;
 };

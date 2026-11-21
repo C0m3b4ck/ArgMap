@@ -228,6 +228,10 @@ bool WindowView::confirm(const std::string& message) {
     return gui::confirm(message);
 }
 
+app::SavePrompt WindowView::askSaveChanges() {
+    return gui::askSaveChanges();
+}
+
 void WindowView::alert(const std::string& message) {
     gui::alert(message);
 }

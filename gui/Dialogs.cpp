@@ -60,6 +60,18 @@ bool confirm(const std::string& message) {
     return fl_choice("%s", "Cancel", "Continue", nullptr, message.c_str()) == 1;
 }
 
+app::SavePrompt askSaveChanges() {
+    // FLTK focuses button[1] by default, so "Save" is the default action.
+    const int choice = fl_choice(
+        "%s", "Don't Save", "Save", "Cancel",
+        "The current map has unsaved changes.\nSave before closing?");
+    switch (choice) {
+        case 1: return app::SavePrompt::Save;
+        case 0: return app::SavePrompt::Discard;
+        default: return app::SavePrompt::Cancel;
+    }
+}
+
 void alert(const std::string& message) {
     fl_message("%s", message.c_str());
 }
