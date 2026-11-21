@@ -1,0 +1,282 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0311
+header_name {MapWindow.H}
+code_name {MapWindow.cpp}
+decl {\#include "app/Ports.h"} {public global
+}
+
+decl {\#include "gui/AppWindow.H"} {public global
+}
+
+decl {using AppWindow = argmap::gui::AppWindow;} {public global
+}
+
+decl {\#include "gui/ArgumentCanvas.H"} {public global
+}
+
+decl {using ArgumentCanvas = argmap::gui::ArgumentCanvas;} {public global
+}
+
+decl {\#include "gui/WindowView.h"} {public global
+}
+
+class MapWindow {open
+} {
+  Function {MapWindow()} {open
+  } {
+    code {view = 0;} {}
+    Fl_Window window {
+      label {ArgMap - Oxford Debate Mapper} open
+      xywh {120 80 1200 760} type Double
+      class AppWindow
+    } {
+      Fl_Menu_Bar menuBar {
+        xywh {0 0 1200 28}
+      } {
+        MenuItem {} {
+          label {File/&New}
+          callback {if (view) view->onNew();}
+        }
+        MenuItem {} {
+          label {File/&Open...}
+          callback {if (view) view->onOpen();}
+        }
+        MenuItem {} {
+          label {File/&Save}
+          callback {if (view) view->onSave();}
+        }
+        MenuItem {} {
+          label {File/Save &As...}
+          callback {if (view) view->onSaveAs();}
+        }
+        MenuItem {} {
+          label {File/&Export Image (PNG)...}
+          callback {if (view) view->onExportPng();}
+        }
+        MenuItem {} {
+          label {File/-}
+        }
+        MenuItem {} {
+          label {File/&Quit}
+          callback {if (view) view->onQuit();}
+        }
+        MenuItem {} {
+          label {Edit/Add &Proposition Argument}
+          callback {if (view) view->onAddProposition();}
+        }
+        MenuItem {} {
+          label {Edit/Add &Opposition Argument}
+          callback {if (view) view->onAddOpposition();}
+        }
+        MenuItem {} {
+          label {Edit/&Apply Editor}
+          callback {if (view) view->onApply();}
+        }
+        MenuItem {} {
+          label {Edit/&Delete Argument}
+          callback {if (view) view->onDelete();}
+        }
+        MenuItem {} {
+          label {Edit/&Auto Layout}
+          callback {if (view) view->onAutoLayout();}
+        }
+        MenuItem {} {
+          label {Counter/&Begin Link}
+          callback {if (view) view->onToggleLink();}
+        }
+        MenuItem {} {
+          label {Counter/&Cancel Link}
+          callback {if (view) view->onCancelLink();}
+        }
+        MenuItem {} {
+          label {Counter/&Remove Selected Link}
+          callback {if (view) view->onDeleteCounter();}
+        }
+        MenuItem {} {
+          label {Help/&How To Use}
+          callback {if (view) view->onHelp();}
+        }
+      }
+      Fl_Group sidebar {
+        label {}
+        xywh {0 28 288 708}
+      } {
+        Fl_Browser argBrowser {
+          label {ARGUMENTS - click to select}
+          callback {if (view) view->onSelectArgument();}
+          xywh {8 60 272 320} type Hold labelfont 1 labelsize 11
+        }
+        Fl_Browser counterBrowser {
+          label {COUNTER LINKS - counter -> target}
+          callback {if (view) view->onSelectCounter();}
+          xywh {8 388 272 220} type Hold labelfont 1 labelsize 11
+        }
+        Fl_Box hintBox {
+          label {Click a box to select. Use the + buttons on the right to add.}
+          xywh {8 616 272 108} align 769 labelfont 1 labelsize 10 color 49
+        }
+      }
+      Fl_Group canvasPanel {
+        label {}
+        xywh {288 28 568 708} resizable
+      } {
+        Fl_Box canvas {
+          label {}
+          xywh {290 30 564 704} box DOWN_BOX color 7 resizable
+          code0 {\#include "gui/ArgumentCanvas.H"}
+          class ArgumentCanvas
+        }
+      }
+      Fl_Group editorPanel {
+        label {}
+        xywh {856 28 344 708}
+      } {
+        Fl_Button addPropButton {
+          label {+ Proposition}
+          callback {if (view) view->onAddProposition();}
+          tooltip {Add an argument for the Proposition side}
+          xywh {864 36 160 26}
+        }
+        Fl_Button addOppButton {
+          label {+ Opposition}
+          callback {if (view) view->onAddOpposition();}
+          tooltip {Add an argument for the Opposition side}
+          xywh {1032 36 160 26} color 91
+        }
+        Fl_Check_Button counterCheck {
+          label {As counter to selected}
+          callback {if (view) view->onAddAsCounterChanged();}
+          tooltip {When checked, Add creates a counterargument linked to the selected argument}
+          xywh {864 66 328 26} color 49
+        }
+        Fl_Button linkButton {
+          label {Mark Counter}
+          callback {if (view) view->onToggleLink();}
+          tooltip {Link two existing arguments: select the counter, then click the target}
+          xywh {864 96 160 26}
+        }
+        Fl_Button cancelLinkButton {
+          label {Cancel}
+          callback {if (view) view->onCancelLink();}
+          tooltip {Leave counter-link mode}
+          xywh {1032 96 160 26}
+        }
+        Fl_Button deleteCounterButton {
+          label {Remove Link}
+          callback {if (view) view->onDeleteCounter();}
+          tooltip {Delete the counter link selected in the list}
+          xywh {864 126 160 26}
+        }
+        Fl_Button layoutButton {
+          label {Auto Layout}
+          callback {if (view) view->onAutoLayout();}
+          tooltip {Arrange arguments neatly by side}
+          xywh {1032 126 160 26}
+        }
+        Fl_Button openButton {
+          label {Open...}
+          callback {if (view) view->onOpen();}
+          tooltip {Open a saved .argmap debate map for editing}
+          xywh {864 156 160 26}
+        }
+        Fl_Button saveButton {
+          label {Save}
+          callback {if (view) view->onSave();}
+          tooltip {Save this map to a .argmap file (Save As on first save)}
+          xywh {1032 156 160 26}
+        }
+        Fl_Button exportButton {
+          label {Export PNG}
+          callback {if (view) view->onExportPng();}
+          tooltip {Save a picture of the whole map}
+          xywh {864 186 160 26}
+        }
+        Fl_Button helpButton {
+          label {Help}
+          callback {if (view) view->onHelp();}
+          tooltip {Show a quick guide}
+          xywh {1032 186 160 26}
+        }
+        Fl_Input titleInput {
+          label {Map title}
+          callback {if (view) view->onTitleChanged();}
+          xywh {864 222 328 22}
+          code0 {o->when(FL_WHEN_ENTER_KEY|FL_WHEN_RELEASE);}
+        }
+        Fl_Input textInput {
+          label {Argument text - click a box first}
+          callback {if (view) view->onApply();}
+          xywh {864 252 328 150} type Multiline
+          code0 {o->when(FL_WHEN_ENTER_KEY);}
+        }
+        Fl_Value_Slider weightSlider {
+          label {Weight: 1 weak ... 5 strong}
+          callback {if (view) view->onWeightChanged();}
+          xywh {864 412 328 18} type Horizontal align 4 minimum 1 maximum 5 step 1 value 3
+          code0 {o->when(FL_WHEN_RELEASE);}
+        }
+        Fl_Choice speakerChoice {
+          label {Speaker}
+          callback {if (view) view->onSpeakerChanged();}
+          xywh {864 446 328 22} box DOWN_BOX
+        } {
+          MenuItem {} {
+            label {None}
+          }
+          MenuItem {} {
+            label {Speaker 1}
+          }
+          MenuItem {} {
+            label {Speaker 2}
+          }
+          MenuItem {} {
+            label {Speaker 3}
+          }
+          MenuItem {} {
+            label {Speaker 4}
+          }
+        }
+        Fl_Button colorButton {
+          label {Colour...}
+          callback {if (view) view->onPickColor();}
+          tooltip {Choose the box colour}
+          xywh {864 484 160 24}
+        }
+        Fl_Check_Button sideCheck {
+          label {Opposition (off = Proposition)}
+          callback {if (view) view->onApply();}
+          tooltip {Which side this argument belongs to}
+          xywh {1032 484 160 24} box DOWN_BOX
+        }
+        Fl_Button applyButton {
+          label {Save changes}
+          callback {if (view) view->onApply();}
+          tooltip {Update the selected argument, or add a new one from this editor}
+          xywh {864 524 200 26}
+        }
+        Fl_Button deleteButton {
+          label {Delete argument}
+          callback {if (view) view->onDelete();}
+          tooltip {Delete the selected argument and its links}
+          xywh {1072 524 120 26}
+        }
+        Fl_Box statsBox {
+          label {}
+          xywh {864 562 328 110} box THIN_DOWN_BOX align 21 labelfont 1 labelsize 11 color 49
+        }
+        Fl_Box editorHint {
+          label {Select a box, edit, then Save changes.}
+          xywh {864 680 328 44} align 769 labelfont 1 labelsize 10
+        }
+      }
+      Fl_Box statusBox {
+        label {Ready}
+        xywh {8 738 1184 20} box THIN_DOWN_BOX align 20 color 49 labelsize 11
+      }
+    }
+  }
+  decl {argmap::gui::WindowView* view;} {public local
+  }
+  decl {void attachView(argmap::gui::WindowView* v);} {public local
+  }
+}

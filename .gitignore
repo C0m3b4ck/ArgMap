@@ -1,0 +1,6 @@
+/argmap
+build/
+build-cmake*/
+build-windows-*/
+*.argmap
+*.png
