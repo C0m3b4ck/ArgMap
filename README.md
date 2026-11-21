@@ -75,8 +75,8 @@ Outputs are `build-windows-msvc\Release\argmap.exe` or
   the mouse wheel to zoom, and `0` to reset the view.
 - The window is responsive: sidebar, canvas and editor panels reflow as the
   window is resized, down to 760×520.
-- **Save / Open**: click the `Save` / `Open...` buttons in the right-hand panel (or use
-  `File > Save` / `File > Open...`). Maps are stored as human-readable `.argmap`
+- **Save / Open**: click the `Save` / `Open...` buttons in the right-hand panel.
+  Maps are stored as human-readable `.argmap`
   JSON files containing the title, arguments, positions, weights, colours,
   speakers and counter links. The first save prompts for a filename (Save As);
   later saves update the same file. Reopen a saved `.argmap` file any time to
@@ -106,7 +106,7 @@ the domain; the GUI talks to the application only through `app/Ports.h`.
 fluid gui/MapWindow.fl
 ```
 
-Move/resize widgets, change labels, tooltips or menu entries, then save and run
+Move/resize widgets, change labels or tooltips, then save and run
 `make`. FLUID regenerates `build/generated/MapWindow.H/.cpp` automatically.
 
 Three things in the `.fl` file are wiring rather than decoration; keep them if

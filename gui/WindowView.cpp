@@ -241,12 +241,9 @@ void WindowView::layout(int width, int height) {
     height = std::max(1, height);
 
     const int margin = 8;
-    const int menuH = 28;
     const int statusH = 24;
-    const int mainY = menuH;
-    const int mainH = std::max(260, height - mainY - statusH);
-
-    place(ui_.menuBar, 0, 0, width, menuH);
+    const int mainY = 0;                 // no menu bar, no toolbar at the top
+    const int mainH = std::max(260, height - statusH);
 
     int sidebarW = scaled(width * 0.24, 180, 288);
     int editorW = scaled(width * 0.29, 268, 344);
@@ -263,21 +260,22 @@ void WindowView::layout(int width, int height) {
     place(ui_.canvas, canvasX + 2, mainY + 2, canvasW - 4, mainH - 4);
     place(ui_.editorPanel, editorX, mainY, editorW, mainH);
 
-    // Left panel: argument/list browsers only. No command widgets live here.
+    // Left panel: argument/counter browsers only. No buttons, no bars.
     const int pad = margin;
     const int listW = std::max(1, sidebarW - 2 * pad);
-    const int hintH = scaled(mainH * 0.15, 44, 108);
+    const int hintH = scaled(mainH * 0.10, 40, 72);
     const int listsH = std::max(80, mainH - hintH - 3 * pad);
-    const int argH = scaled(listsH * 0.59, 60, 320);
+    const int argH = scaled(listsH * 0.59, 60, 360);
     const int counterH = std::max(48, listsH - argH - pad);
-    place(ui_.argBrowser, pad, mainY + pad, listW, argH);
-    place(ui_.counterBrowser, pad, mainY + pad + argH + pad, listW, counterH);
+    place(ui_.argBrowser, pad, mainY + pad + 20, listW, argH);
+    place(ui_.counterBrowser, pad, mainY + pad + 20 + argH + pad,
+          listW, counterH);
     place(ui_.hintBox, pad, mainY + mainH - hintH - pad, listW, hintH);
 
-    // Right panel: all command buttons live above the editor fields.
+    // Right panel: EVERY command is a regular button in this panel.
     const int ex = editorX + pad;
     const int iw = std::max(1, editorW - 2 * pad);
-    const bool compact = mainH < 560;
+    const bool compact = mainH < 540;
     const int btnH = compact ? 20 : 24;
     const int btnGap = compact ? 2 : 4;
     const int colGap = 6;
@@ -295,27 +293,32 @@ void WindowView::layout(int width, int height) {
     place(ui_.deleteCounterButton, ex, y, halfW, btnH);
     place(ui_.layoutButton, ex + halfW + colGap, y, halfW, btnH);
     y += btnH + btnGap;
-    place(ui_.openButton, ex, y, halfW, btnH);
-    place(ui_.saveButton, ex + halfW + colGap, y, halfW, btnH);
+    place(ui_.newButton, ex, y, halfW, btnH);
+    place(ui_.openButton, ex + halfW + colGap, y, halfW, btnH);
+    y += btnH + btnGap;
+    place(ui_.saveButton, ex, y, halfW, btnH);
+    place(ui_.saveAsButton, ex + halfW + colGap, y, halfW, btnH);
     y += btnH + btnGap;
     place(ui_.exportButton, ex, y, halfW, btnH);
     place(ui_.helpButton, ex + halfW + colGap, y, halfW, btnH);
     y += btnH + btnGap;
+    place(ui_.quitButton, ex, y, iw, btnH);
+    y += btnH + btnGap;
 
     // Editor fields share the space between the buttons and the bottom hint.
-    const int editorHintH = scaled(mainH * 0.06, 26, 44);
+    const int editorHintH = scaled(mainH * 0.05, 22, 36);
     const int hintY = mainY + mainH - editorHintH - pad;
     const int titleStep = compact ? 26 : 30;
-    const int textStep = compact ? 12 : 16;
-    const int weightStep = compact ? 26 : 32;
-    const int speakerStep = compact ? 30 : 36;
-    const int colorStep = compact ? 32 : 40;
-    const int applyStep = compact ? 34 : 40;
+    const int textStep = compact ? 10 : 14;
+    const int weightStep = compact ? 24 : 30;
+    const int speakerStep = compact ? 28 : 34;
+    const int colorStep = compact ? 30 : 38;
+    const int applyStep = compact ? 32 : 38;
     const int fixedSteps = titleStep + textStep + weightStep + speakerStep +
                            colorStep + applyStep;
     const int flexibleH = std::max(70, hintY - pad - y - fixedSteps);
-    const int textH = clampInt(static_cast<int>(flexibleH * 0.55), 40, 170);
-    const int statsH = clampInt(flexibleH - textH, 32, 130);
+    const int textH = clampInt(static_cast<int>(flexibleH * 0.55), 38, 160);
+    const int statsH = clampInt(flexibleH - textH, 28, 120);
 
     place(ui_.titleInput, ex, y, iw, 22);
     y += titleStep;
