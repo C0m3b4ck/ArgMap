@@ -310,41 +310,45 @@ void WindowView::layout(int width, int height) {
     y += btnH + btnGap;
 
     // Editor fields share the space between the buttons and the bottom hint.
+    // Labels sit directly above their field (FL_ALIGN_TOP), never to the left
+    // where FLTK's input/choice defaults would spill them into the canvas.
     const int editorHintH = scaled(mainH * 0.05, 22, 36);
     const int hintY = mainY + mainH - editorHintH - pad;
-    const int titleStep = compact ? 26 : 30;
-    const int textStep = compact ? 10 : 14;
-    const int weightStep = compact ? 24 : 30;
-    const int speakerStep = compact ? 28 : 34;
-    const int colorStep = compact ? 30 : 38;
-    const int applyStep = compact ? 32 : 38;
-    const int fixedSteps = titleStep + textStep + weightStep + speakerStep +
-                           colorStep + applyStep;
-    const int flexibleH = std::max(70, hintY - pad - y - fixedSteps);
-    const int textH = clampInt(static_cast<int>(flexibleH * 0.55), 38, 160);
-    const int statsH = clampInt(flexibleH - textH, 28, 120);
+    const int labelH = compact ? 12 : 15;
+    const int gap = compact ? 2 : 4;
+    const int titleH = 22;
+    const int weightH = 18;
+    const int speakerH = 22;
+    const int colorH = 24;
+    const int applyH = 26;
+    const int fixedSteps = 4 * (labelH + gap) + titleH + weightH + speakerH +
+                           colorH + gap + applyH + gap;
+    const int flexibleH = std::max(50, hintY - pad - y - fixedSteps);
+    const int textH = clampInt(static_cast<int>(flexibleH * 0.60), 38, 150);
+    const int statsH = clampInt(flexibleH - textH, 28, 130);
 
-    place(ui_.titleInput, ex, y, iw, 22);
-    y += titleStep;
-    place(ui_.textInput, ex, y, iw, textH);
-    y += textH + textStep;
+    place(ui_.titleInput, ex, y + labelH, iw, titleH);
+    y += labelH + titleH + gap;
 
-    place(ui_.weightSlider, ex, y, iw, 18);
-    y += weightStep;
+    place(ui_.textInput, ex, y + labelH, iw, textH);
+    y += labelH + textH + gap;
 
-    place(ui_.speakerChoice, ex, y, iw, 22);
-    y += speakerStep;
+    place(ui_.weightSlider, ex, y + labelH, iw, weightH);
+    y += labelH + weightH + gap;
+
+    place(ui_.speakerChoice, ex, y + labelH, iw, speakerH);
+    y += labelH + speakerH + gap;
 
     const int splitW = iw - 8;
     const int colorW = splitW * 48 / 100;
-    place(ui_.colorButton, ex, y, colorW, 24);
-    place(ui_.sideCheck, ex + colorW + 8, y, splitW - colorW, 24);
-    y += colorStep;
+    place(ui_.colorButton, ex, y, colorW, colorH);
+    place(ui_.sideCheck, ex + colorW + 8, y, splitW - colorW, colorH);
+    y += colorH + gap;
 
     const int applyW = splitW * 62 / 100;
-    place(ui_.applyButton, ex, y, applyW, 26);
-    place(ui_.deleteButton, ex + applyW + 8, y, splitW - applyW, 26);
-    y += applyStep;
+    place(ui_.applyButton, ex, y, applyW, applyH);
+    place(ui_.deleteButton, ex + applyW + 8, y, splitW - applyW, applyH);
+    y += applyH + gap;
 
     place(ui_.statsBox, ex, y, iw,
           std::max(1, std::min(statsH, hintY - pad - y)));

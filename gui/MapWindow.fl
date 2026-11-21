@@ -151,25 +151,25 @@ class MapWindow {open
         Fl_Input titleInput {
           label {Map title}
           callback {if (view) view->onTitleChanged();}
-          xywh {864 240 328 22}
+          xywh {864 240 328 22} align 1
           code0 {o->when(FL_WHEN_ENTER_KEY|FL_WHEN_RELEASE);}
         }
         Fl_Input textInput {
-          label {Argument text - click a box first}
+          label {Argument text}
           callback {if (view) view->onApply();}
-          xywh {864 270 328 130} type Multiline
+          xywh {864 270 328 130} type Multiline align 1
           code0 {o->when(FL_WHEN_ENTER_KEY);}
         }
         Fl_Value_Slider weightSlider {
           label {Weight: 1 weak ... 5 strong}
           callback {if (view) view->onWeightChanged();}
-          xywh {864 416 328 18} type Horizontal align 4 minimum 1 maximum 5 step 1 value 3
+          xywh {864 416 328 18} type Horizontal align 1 minimum 1 maximum 5 step 1 value 3
           code0 {o->when(FL_WHEN_RELEASE);}
         }
         Fl_Choice speakerChoice {
           label {Speaker}
           callback {if (view) view->onSpeakerChanged();}
-          xywh {864 448 328 22} box DOWN_BOX
+          xywh {864 448 328 22} box DOWN_BOX align 1
         } {
           MenuItem {} {
             label {None}

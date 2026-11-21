@@ -1,4 +1,5 @@
 /argmap
+/argmap_2
 build/
 build-cmake*/
 build-windows-*/
